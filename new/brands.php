@@ -319,20 +319,14 @@ require_once "include/db.php";
                                             var active = '<span class="label label-success">Active</span>';
                                         }
                                         // Update tr html value
-                                        if($('#manageTable tr[data-id="'+ id +'"]').length){
-                                            /*var brandNameHtml = $("td:eq( 0 )").html(brand_name);
-                                            var statusHtml = $("td:eq( 1 )").html(active);
-                                            var actionHtml = $("td:eq( 2 )").html('<button type="button" class="btn btn-default" onclick="editBrand(' + id +')" data-toggle="modal" data-target="#editBrandModal"><i class="fa fa-pencil"></i></button>' +
-                                                                                '<button data-id="' + response.id +'" type="button" class="btn btn-default" onclick="removeBrand(' + id +')" data-toggle="modal" data-target="#removeBrandModal"><i class="fa fa-trash"></i></button>');
-                                            */
-                                            //$('#manageTable tr[data-id="'+ id +'"]').append();
-                                        }
+                                        $('tr[data-id="'+id+'"] td:eq(0)').html(brand_name);
+                                        $('tr[data-id="'+ id +'"] td:eq(1)').html(active);
+                                        
                                         // Success message
                                         $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
                                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
                                             '<strong> <span class="glyphicon glyphicon-ok-sign"></span> </strong>'+response.messages+
                                             '</div>');
-
                                         // hide the modal
                                         $("#editBrandModal").modal('hide');
                                     }else {
