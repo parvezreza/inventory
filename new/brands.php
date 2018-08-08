@@ -230,7 +230,7 @@ require_once "include/db.php";
             });*/
 
             var manageTable = $('#manageTable').DataTable({
-                "order": [[ 1, "desc" ]]
+                "order": [[ 1, "desc" ]],
             });
             // submit the create from
             $("#createBrandForm").unbind('submit').on('submit', function() {
@@ -321,7 +321,7 @@ require_once "include/db.php";
                                         // Update tr html value
                                         $('tr[data-id="'+id+'"] td:eq(0)').html(brand_name);
                                         $('tr[data-id="'+ id +'"] td:eq(1)').html(active);
-                                        
+
                                         // Success message
                                         $("#messages").html('<div class="alert alert-success alert-dismissible" role="alert">'+
                                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+

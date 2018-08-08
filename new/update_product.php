@@ -25,18 +25,36 @@ require_once 'include/db.php';
                 <div class="col-md-12 col-xs-12">
 
                     <div id="messages"></div>
+                    <?php
+                    $id = $_GET['id'];
+                    $sql = "SELECT * FROM products WHERE id = :id";
+                    $st = $db->prepare($sql);
+                    $st->bindParam(':id', $id, PDO::PARAM_INT);
+                    $result = [];
+                    try{
+                        $st->execute();
+                        $result = $st->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($result as $upResults){
+                        }
+                    }catch (PDOException $e){
+                        $e->getMessage();
+                    }
+                    ?>
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Add Product</h3>
                         </div>
                         <!-- /.box-header -->
                         <form role="form" action="products.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="product_id" value="<?php echo $upResults['id']; ?>"/>
                             <div class="box-body">
 
                                 <?php //echo validation_errors(); ?>
-
                                 <div class="form-group">
-
+                                    <label for="">Image Preview</label>
+                                    <img src="<?php echo $upResults['image']?>" alt="<?php echo $upResults['name']?>" width="150" height="150" class="img-circle">
+                                </div>
+                                <div class="form-group">
                                     <label for="product_image">Image</label>
                                     <div class="kv-avatar">
                                         <div class="file-loading">
@@ -47,27 +65,28 @@ require_once 'include/db.php';
 
                                 <div class="form-group">
                                     <label for="product_name">Product name</label>
-                                    <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name" require autocomplete="off"/>
+                                    <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name" value="<?php echo $upResults['name']; ?>" required autocomplete="off"/>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="sku">SKU</label>
-                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" require autocomplete="off" />
+                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" value="<?php echo $upResults['sku']; ?>" required autocomplete="off" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="text" class="form-control" id="price" name="price" placeholder="Enter price" require autocomplete="off" />
+                                    <input type="text" class="form-control" id="price" name="price" placeholder="Enter price" value="<?php echo $upResults['price']; ?>" required autocomplete="off" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="qty">Qty</label>
-                                    <input type="text" class="form-control" id="qty" name="qty" placeholder="Enter Qty" require autocomplete="off" />
+                                    <input type="text" class="form-control" id="qty" name="qty" placeholder="Enter Qty" value="<?php echo $upResults['qty']; ?>" required autocomplete="off" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter description" autocomplete="off">
+                                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter description"  autocomplete="off">
+                                    <?php echo $upResults['description']; ?>
                                     </textarea>
                                 </div>
                                 <?php
@@ -104,8 +123,18 @@ require_once 'include/db.php';
                                 <div class="form-group">
                                     <label for="brands">Brands</label>
                                     <select class="form-control select_group" id="brands" name="brands" require>
-                                        <option value="">Select</option>
                                         <?php
+                                        $Bid = $upResults['brand_id'];
+                                        $sql = "SELECT * FROM brands WHERE id = :id";
+                                        $st = $db->prepare($sql);
+                                        $st->bindParam(':id', $Bid, PDO::PARAM_INT);
+                                        $result = [];
+                                        $st->execute();
+                                        $result = $st->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($result as $BrandResults){
+                                        }
+                                        echo '<option value="'.$upResults['brand_id'].'">'.$BrandResults["name"].'</option>';
+                                       //Looping
                                         $sql = "SELECT * FROM brands";
                                         $st = $db->prepare($sql);
                                         $result = [];
@@ -124,8 +153,18 @@ require_once 'include/db.php';
                                 <div class="form-group">
                                     <label for="brands">Category</label>
                                     <select class="form-control select_group" id="category" name="category" require>
-                                    <option value="">Select</option>
                                     <?php
+                                    $Cid = $upResults['category_id'];
+                                    $sql = "SELECT * FROM categories WHERE id = :id";
+                                    $st = $db->prepare($sql);
+                                    $st->bindParam(':id', $Cid, PDO::PARAM_INT);
+                                    $result = [];
+                                    $st->execute();
+                                    $result = $st->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $CatResults){
+                                    }
+                                    echo '<option value="'.$upResults['category_id'].'">'.$CatResults["name"].'</option>';
+                                    //Looping
                                     $sql = "SELECT * FROM categories";
                                     $st = $db->prepare($sql);
                                     $result = [];
@@ -144,8 +183,18 @@ require_once 'include/db.php';
                                 <div class="form-group">
                                     <label for="brands">Stores</label>
                                     <select class="form-control select_group" id="store" name="store" require>
-                                    <option value="">Select</option>
                                     <?php
+                                    $Sid = $upResults['store_id'];
+                                    $sql = "SELECT * FROM stores WHERE id = :id";
+                                    $st = $db->prepare($sql);
+                                    $st->bindParam(':id', $Sid, PDO::PARAM_INT);
+                                    $result = [];
+                                    $st->execute();
+                                    $result = $st->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result as $StoreResults){
+                                    }
+                                    echo '<option value="'.$upResults['store_id'].'">'.$StoreResults["name"].'</option>';
+                                    //Looping
                                     $sql = "SELECT * FROM stores";
                                     $st = $db->prepare($sql);
                                     $result = [];
@@ -173,7 +222,7 @@ require_once 'include/db.php';
                             <!-- /.box-body -->
 
                             <div class="box-footer">
-                                <input name="add_product" type="submit" class="btn btn-primary" value="Save Changes">
+                                <input name="update_product" type="submit" class="btn btn-primary" value="Save Changes">
                                 <a href="<?php //echo base_url('products/') ?>" class="btn btn-warning">Back</a>
                             </div>
                         </form>
